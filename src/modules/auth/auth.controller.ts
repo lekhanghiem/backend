@@ -21,10 +21,26 @@ import { LocalAuthGuard } from './passport/local-auth.guard';
 import { JwtAuthGuard } from './passport/jwt-auth.guard';
 import { Public } from 'src/decorators/public.decorator';
 import { RegisterDto } from './dto/register.dto';
+import { MailerService } from '@nestjs-modules/mailer';
+import { retry } from 'rxjs';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private readonly mailerService: MailerService,
+    private authService: AuthService
+  ) {}
+  @Public()
+  @Get('mail')
+  async testmail() {
+    this.mailerService.sendMail({
+      to: 'nghiemboy123@gmail.com', // list of receivers
+      subject: 'Testing', // Subject line
+      text: 'welcome', // plaintext body
+      html: '<b>helloword</b>', // HTML body content
+    });
+    return 'ok';
+  }
   @Public()
   @Post('register')
   register(@Body(ValidationPipe) registerDto: RegisterDto) {
