@@ -62,11 +62,6 @@ export class AuthController {
   async login(@Request() req) {
     return this.authService.login(req.user);
   }
-  // @UseGuards(LocalAuthGuard)
-  // @Post('login')
-  // async validateUser(@Request() req) {
-  //   return req.user;
-  // }
 
   @Get('users')
   async getUsers(@Query('page') page: string, @Query('limit') limit: string) {
